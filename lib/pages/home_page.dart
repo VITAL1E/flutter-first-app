@@ -1,11 +1,13 @@
+import 'package:example/utils/constants.dart';
+import 'package:example/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import '../drawer.dart';
-import '../name_card_widget.dart';
+import 'login_page.dart';
 
 class HomePage extends StatefulWidget {
+  static const String routeName = "/home";
 
   var url = "https://jsonplaceholder.typicode.com/photos";
   var data;
@@ -43,7 +45,18 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
-      appBar: AppBar(title: Text("Aswesome app")),
+      appBar: AppBar(
+        title: Text("Aswesome app"),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.exit_to_app),
+            onPressed: () {
+              Constants.prefs.setBool("loggedIn", false);
+              Navigator.pushReplacementNamed(context, LoginPage.routeName);
+            },
+          )
+        ],
+      ),
       body: data != null
           ? ListView.builder(
             itemBuilder: (context, index) {
